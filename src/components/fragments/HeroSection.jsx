@@ -1,7 +1,5 @@
 "use client"
 import { useRef, useEffect } from 'react';
-import { FaCoins, FaStarOfLife } from 'react-icons/fa'
-import Marquee from "react-fast-marquee";
 import { BiArrowToBottom } from 'react-icons/bi';
 import { gsap } from 'gsap';
 
