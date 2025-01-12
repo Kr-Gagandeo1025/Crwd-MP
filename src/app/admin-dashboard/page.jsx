@@ -1,14 +1,21 @@
 'use client'
-import React, { useEffect } from 'react'
-import { motion } from "motion/react"
+import React, { useEffect, useState } from 'react';
+import { motion } from "motion/react";
+import VerfPortalCards from "../../components/VerfPortalCards";
+import { FaSpinner } from 'react-icons/fa6';
 
 const AdminDashbrd = () => {
+
+  const [VerfType, setVerfType] = useState(1);
+  const [VerificationData, setVerificationData] = useState(null);
+
   const func = async () => {
-    const response = await fetch("/api/verify-company",{
+    const response = await fetch("/api/get-verification-data",{
       method : "POST",
     })
     const result = await response.json();
-    console.log(result)
+    console.log(result);
+    setVerificationData(result);
   }
   
   useEffect (()=>{
@@ -30,12 +37,27 @@ const AdminDashbrd = () => {
 
       {/* type selector */}
       <motion.ul className='w-full mt-10 flex items-start justify-start px-10 gap-5'>
-          <li className={`cursor-pointer px-4 py-2 border border-black shadow-lg text-lg rounded-md bg-gray-200`}>Company/NGO</li>
-          <li className={`cursor-pointer px-4 py-2 border border-black text-lg rounded-md opacity-70`}>Educational/Student</li>
-          <li className={`cursor-pointer px-4 py-2 border border-black text-lg rounded-md opacity-70`}>Healthcare</li>
+          <li className={`cursor-pointer px-4 py-2 border border-black text-lg rounded-md ${VerfType==1?'bg-gray-200 shadow-lg':'opacity-70'} transition-all duration-300 ease-in-out`} onClick={()=>{setVerfType(1)}}>Company/NGO</li>
+          <li className={`cursor-pointer px-4 py-2 border border-black text-lg rounded-md ${VerfType==2?'bg-gray-200 shadow-lg':'opacity-70'} transition-all duration-300 ease-in-out`} onClick={()=>{setVerfType(2)}}>Educational/Student</li>
+          <li className={`cursor-pointer px-4 py-2 border border-black text-lg rounded-md ${VerfType==3?'bg-gray-200 shadow-lg':'opacity-70'} transition-all duration-300 ease-in-out`} onClick={()=>{setVerfType(3)}}>Healthcare</li>
       </motion.ul>
 
       {/* map the data for companies */}
+      {VerfType===1&& VerificationData?<motion.div className='w-full px-10 py-4 gap-4 flex flex-col items-center justify-start' initial={{opacity:0,y:-100}} animate={{opacity:1,y:0}}>
+        {VerificationData?.data1?.map((item,id)=>(
+          <VerfPortalCards key={id} item={item} type={1}/>
+        ))}
+      </motion.div>:VerfType===1&&<div className='flex w-full items-center justify-center gap-3 mt-10 text-2xl'><FaSpinner className='animate-spin'/>Loading...</div>}
+      {VerfType===2&& VerificationData?<motion.div className='w-full px-10 py-4 gap-4 flex flex-col items-center justify-start' initial={{opacity:0,y:-100}} animate={{opacity:1,y:0}}>
+      {VerificationData?.data2?.map((item,id)=>(
+          <VerfPortalCards key={id} item={item} type={2}/>
+        ))}
+      </motion.div>:VerfType===2&&<div className='flex w-full items-center justify-center gap-3 mt-10 text-2xl'><FaSpinner className='animate-spin'/>Loading...</div>}
+      {VerfType===3&& VerificationData?<motion.div className='w-full px-10 py-4 gap-4 flex flex-col items-center justify-start' initial={{opacity:0,y:-100}} animate={{opacity:1,y:0}}>
+      {VerificationData?.data3?.map((item,id)=>(
+          <VerfPortalCards key={id} item={item} type={3}/>
+        ))}
+      </motion.div>:VerfType===3&&<div className='flex w-full items-center justify-center gap-3 mt-10 text-2xl'><FaSpinner className='animate-spin'/>Loading...</div>}
 
     </div>
   )
