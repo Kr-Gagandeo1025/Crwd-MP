@@ -10,7 +10,7 @@ const AdminDashbrd = () => {
   const [VerificationData, setVerificationData] = useState(null);
 
   const func = async () => {
-    const response = await fetch("/api/get-verification-data",{
+    const response = await fetch("/api/get-dashboard-data",{
       method : "POST",
     })
     const result = await response.json();

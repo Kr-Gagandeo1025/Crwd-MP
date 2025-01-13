@@ -11,20 +11,20 @@ export async function POST() {
         `;
         const data1 = (await client.query(beneficiaryDataQuery)).rows;
     
+        // Query data from student_data table
+        const studentDataQuery = `
+        SELECT id, beneficiary_name, target_amount_eth, date_created 
+        FROM student_data;
+        `;
+        const data2 = (await client.query(studentDataQuery)).rows;
+        
         // Query data from patient_data table
         const patientDataQuery = `
           SELECT id, beneficiary_name, target_amount_eth, date_created 
           FROM patient_data;
         `;
-        const data2 = (await client.query(patientDataQuery)).rows;
-    
-        // Query data from student_data table
-        const studentDataQuery = `
-          SELECT id, beneficiary_name, target_amount_eth, date_created 
-          FROM student_data;
-        `;
-        const data3 = (await client.query(studentDataQuery)).rows;
-    
+        const data3 = (await client.query(patientDataQuery)).rows;
+        
         // Return the datasets as separate fields in the response
         return NextResponse.json({
           success: true,
