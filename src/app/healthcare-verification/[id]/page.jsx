@@ -31,7 +31,14 @@ const page = () => {
     <div>
       Name = {patientData?.beneficiary_name} <br />
       Age = {patientData?.age} <br />
-      Amount = {patientData?.target_amount_eth} ETH
+      Amount = {patientData?.target_amount_eth} ETH <br />
+      Disease = {patientData?.disease} <br />
+      Patient Status = {patientData?.patient_status} <br />
+      Hospital Name = {patientData?.hospital_name} <br />
+      Documents Provided <br />
+      Estimation Letter = {patientData?.hospital_estimation_letter_link} <br />
+      Hospital Bills = {patientData?.medical_bill_link} <br />
+      Reports = {patientData?.medical_reports_link}
     </div>
   )
 }

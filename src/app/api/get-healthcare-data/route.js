@@ -11,7 +11,7 @@ export async function POST(req) {
     try {
         // Query healthcare data for the specific patient using `id`
         const healthcareDataQuery = `
-          SELECT id, beneficiary_name, age, target_amount_eth, date_created
+          SELECT id, beneficiary_name, age, target_amount_eth, disease, patient_status, hospital_name, hospital_estimation_letter_link, medical_bill_link, medical_reports_link
           FROM patient_data
           WHERE id = ${id};
         `;
