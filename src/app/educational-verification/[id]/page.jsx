@@ -1,5 +1,6 @@
 'use client'
 
+import sendEmail from '@/actions/sendEmail';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -32,6 +33,11 @@ const Page = () => {
     }
   };
 
+  const handleEmail = async () => {
+    const result = await sendEmail("student",studentData);
+    console.log(result);
+  }
+
   useEffect(() => {
     if (pageId) {
       getData();
@@ -61,6 +67,7 @@ const Page = () => {
           </p>
           <p><strong className="text-indigo-700">Target Amount (ETH):</strong> {studentData?.target_amount_eth}</p>
         </div>
+        <button className='bg-green-400 rounded px-5 py-3 text-xl mt-5 font-bold text-white' onClick={handleEmail}>Send for Verification</button>
       </div>
     </div>
   );

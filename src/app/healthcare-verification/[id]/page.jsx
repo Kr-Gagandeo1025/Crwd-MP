@@ -24,7 +24,7 @@ const Page = () => {
   };
 
   const sendMailtoAuthority = async () => {
-    const result = await sendEmail();
+    const result = await sendEmail("health",patientData);
     console.log(result);
   }
 
