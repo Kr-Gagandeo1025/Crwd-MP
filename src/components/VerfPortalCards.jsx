@@ -14,7 +14,7 @@ const VerfPortalCards = ({item, type}) => {
       </div>
       <div>
         <p className='text-sm font-semibold text-gray-600'>applied on</p>
-        <h1 className='text-xl font-bold text-black'>{item?.date_created?.slice(0,10)}</h1>
+        <h1 className='text-xl font-bold text-black'>{item?.date_created.toString().slice(0,10)}</h1>
       </div>
       {type===1&&
         <motion.a whileTap={{opacity:0.7, scale:0.9}} className='bg-blue-700 text-lg font-semibold px-8 py-2 border rounded-md border-black shadow-lg' href={`/companies-verification/${item?.id}`}>

@@ -1,14 +1,7 @@
-import { NextResponse } from "next/server";
-import getClient from "../../../util/db";
-
-export async function POST(req) {
-    if (req.method !== "POST") {
-        return NextResponse.json({ message: "Method not allowed", status: 401 });
-    }
-
+'use server'
+import getClient from "../util/db";
+export default async function getCompanyData(id){
     const client = getClient();
-    const { id } = await req.json();
-
     try {
         // Use a parameterized query to prevent SQL injection
         const companyVerificationQuery = `
@@ -31,22 +24,22 @@ export async function POST(req) {
         const result = await client.query(companyVerificationQuery, [id]);
 
         if (result.rows.length === 0) {
-            return NextResponse.json({
+            return {
                 success: false,
                 message: "No company found for the given ID",
-            });
+            };
         }
 
-        return NextResponse.json({
+        return {
             success: true,
             data: result.rows[0],
-        });
+        };
     } catch (error) {
         console.error("Error fetching company data:", error);
-        return NextResponse.json({
+        return{
             success: false,
             message: "Failed to fetch company data",
             error: error.message,
-        });
+        };
     }
 }

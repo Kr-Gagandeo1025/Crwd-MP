@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from "motion/react";
 import VerfPortalCards from "../../components/VerfPortalCards";
 import { FaSpinner } from 'react-icons/fa6';
+import getDashboardData from "../../actions/getDashboardData";
 
 const AdminDashbrd = () => {
 
@@ -10,10 +11,11 @@ const AdminDashbrd = () => {
   const [VerificationData, setVerificationData] = useState(null);
 
   const func = async () => {
-    const response = await fetch("/api/get-dashboard-data",{
-      method : "POST",
-    })
-    const result = await response.json();
+    // const response = await fetch("/api/get-dashboard-data",{
+    //   method : "POST",
+    // })
+    // const result = await response.json();
+    const result = await getDashboardData()
     console.log(result);
     setVerificationData(result);
   }

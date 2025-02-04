@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import getCompanyData from "../../../actions/getCompanyData"
 
 const Page = () => {
   const params = useParams();
@@ -13,17 +14,9 @@ const Page = () => {
   const [verificationStatus, setVerificationStatus] = useState({});
   const [finalStatus, setFinalStatus] = useState("Pending");
 
-  const getCompanyData = async () => {
+  const fetchCompanyData = async () => {
     try {
-      const response = await fetch("/api/get-company-data", {
-        method: "POST",
-        body: JSON.stringify({ id: companyId }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const result = await response.json();
+      const result = await getCompanyData(companyId);
       if (result?.success) {
         setCompanyData(result?.data);
         setVerificationStatus({
@@ -43,7 +36,7 @@ const Page = () => {
 
   useEffect(() => {
     if (companyId) {
-      getCompanyData();
+      fetchCompanyData();
     }
   }, [companyId]);
 
@@ -171,7 +164,7 @@ const Page = () => {
               className="font-semibold text-blue-500 hover:text-blue-700 cursor-pointer"
               onClick={toggleCompanyAge}
             >
-              {companyData.date_of_incorporation}
+              {companyData.date_of_incorporation.toString(0,10)}
             </span>
           </p>
           {showCompanyAge && (
