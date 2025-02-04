@@ -1,7 +1,6 @@
-import { NextResponse } from "next/server";
-import getClient from "../../../util/db";
-
-export async function POST() {
+'use server'
+import getClient from "../util/db";
+export default async function getDashboardData (){
     const client = getClient();
     try {
         // Query data from beneficiary_data table
@@ -26,14 +25,14 @@ export async function POST() {
         const data3 = (await client.query(patientDataQuery)).rows;
         
         // Return the datasets as separate fields in the response
-        return NextResponse.json({
+        return {
           success: true,
           data1, // Data from beneficiary_data table
           data2, // Data from patient_data table
           data3, // Data from student_data table
-        });
+        };
       } catch (error) {
         console.error('Error fetching data:', error);
-        return NextResponse.json({ success: false, message: 'Failed to fetch data', error: error.message });
+        return { success: false, message: 'Failed to fetch data', error: error.message };
       }
 }

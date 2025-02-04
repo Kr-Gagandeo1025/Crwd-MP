@@ -2,6 +2,8 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import getHealthcareData from '../../../actions/getHealthcareData';
+import sendEmail from '../../../actions/sendEmail';
 
 const Page = () => {
   const params = useParams();
@@ -9,12 +11,7 @@ const Page = () => {
   const [patientData, setPatientData] = useState(null);
 
   const getData = async () => {
-    const response = await fetch("/api/get-healthcare-data", {
-      method: "POST",
-      body: JSON.stringify({ id: pageId }),
-      headers: { "Content-Type": "application/json" },
-    });
-    const result = await response.json();
+    const result = await getHealthcareData(pageId);
     console.log(result);
     if (result?.success === true) {
       setPatientData(result?.data);
@@ -25,6 +22,11 @@ const Page = () => {
     console.log("All documents verified");
     alert("All documents have been verified successfully.");
   };
+
+  const sendMailtoAuthority = async () => {
+    const result = await sendEmail();
+    console.log(result);
+  }
 
   useEffect(() => {
     getData();
@@ -105,7 +107,7 @@ const Page = () => {
             {/* Single Verify All Button */}
             <div className="mt-6 text-center">
               <button
-                onClick={handleVerifyAll}
+                onClick={sendMailtoAuthority}
                 className="px-6 py-3 bg-green-500 text-white rounded shadow hover:bg-green-600"
               >
                 Send For Verifiaction
