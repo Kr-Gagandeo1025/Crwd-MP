@@ -1,15 +1,9 @@
-import { NextResponse } from "next/server";
-import getClient from "../../../util/db";
-
-export async function POST(req) {
-    if(req.method !== "POST"){
-        return NextResponse.json({"message":"method not allowed","status":401})
-    }
+'use server'
+import getClient from "../util/db";
+export default async function getHealthcareData(id){
     const client = getClient();
-    const { id } = await req.json();
-
     try {
-        // Query student data for the specific ID
+        // Query healthcare data for the specific patient using `id`
         const studentDataQuery = `
           SELECT id,
                  address,
@@ -29,24 +23,24 @@ export async function POST(req) {
     
         // Check if data is found
         if (result.rows.length === 0) {
-            return NextResponse.json({
-                success: false,
-                message: "No student data found for the given ID",
-            });
+            return{
+            success: false,
+            message: "No student data found for the given ID",
+            };
         }
     
-        // Return the student data
-        return NextResponse.json({
+        // Return the patient data
+        return {
             success: true,
-            data: result.rows[0], // Return the student data for the given ID
-        });
+            data: result.rows[0], // Return only the data for the specific patient
+        };
         
-    } catch (error) {
+        } catch (error) {
         console.error("Error fetching student data:", error);
-        return NextResponse.json({
+        return {
             success: false,
             message: "Failed to fetch student data",
             error: error.message,
-        });
+        };
     }
 }
